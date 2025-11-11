@@ -1,7 +1,7 @@
 
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Evey Kallmeyer / COMP 272/400C-002
  *
  *   This java file contains the problem solutions for the methods lastBoulder,
  *   showDuplicates, and pair methods. You should utilize the Java Collection
@@ -91,11 +91,26 @@ public class ProblemSolutions {
 
     public static ArrayList<String> showDuplicates(ArrayList<String> input) {
 
-        //
-        //  YOUR CODE GOES HERE
-        //
-        return new ArrayList<>();  // Make sure result is sorted in ascending order
+        // create a HashMap that will contain the number of times a string appears
+        HashMap<String, Integer> countMap = new HashMap<>();
 
+        // create a TreeSet that will contain the duplicates
+        TreeSet<String> duplicates = new TreeSet<>();
+
+        // count how many times each string occurs
+        for (String s : input) {
+            countMap.put(s, countMap.getOrDefaults(s, 0) + 1);
+        }
+
+        // select duplicate strings
+        for (Map.Entry<String, Integer> entry : countMap.entrySet()) {
+            if (entry.getValue() > 1) {
+                duplicates.add(entry.getKey());
+            }
+        }
+
+        // return sorted list of duplicates
+        return new ArrayList<>(duplicates);
     }
 
 
@@ -131,9 +146,33 @@ public class ProblemSolutions {
 
     public static ArrayList<String> pair(int[] input, int k) {
 
-        //
-        //  YOUR CODE GOES HERE
-        //
-        return new ArrayList<>();  // Make sure returned lists is sorted as indicated above
+        // keep track of the integers that have been visited already
+        // you have to visit a number before it can be a complement and join a pair
+        HashSet<Integer> visited = new HashSet<>();
+        
+        // keep track of the pairs that add up to k
+        TreeSet<String> pairs = new TreeSet<>();
+
+        // look at each number in the input array and loop through to find pairs adding up to k
+        for (int num : input) {
+
+            // solve for the complement of whatever number is being visited currently (num)
+            // the complement is the other number in a pair that, when added to the number being visited, sums to integer k
+            int complement = k - num;
+
+            // if the complementing integer has been visited already, it and num are albe to be paired up to equal k
+            if (visited.contains(complement)) {
+                // sort each pair as "(least, greatest)" by finding the max and min of the pair
+                int a = Math.min(num, complement);
+                int b = Math.max(num, complement);
+                pairs.add("(" + a + ", " + b + ")");
+            }
+
+            // make note that teh current number being visited has now been visited by adding it to the AshSet of integers visited
+            visited.add(num);
+        }
+
+        // return sorted list of sorted pairs
+        return new ArrayList<>(pairs);
     }
 }
