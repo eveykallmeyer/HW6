@@ -65,10 +65,32 @@ public class ProblemSolutions {
 
   public static int lastBoulder(int[] boulders) {
 
-      //
-      // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME / SECTION # ABOVE
-      //
-      return -1;
+    if (boulders == null || boulders.length == 0) {
+        return 0;
+    }
+
+    // create a max-heap PriorityQueue
+    PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+    
+    // add the boulder weights into the PriorityQueue
+    for (int w : boulders) {
+        pq.offer(w);
+    }
+
+    // continuously "smash" boulders until there is only one left
+    while (pq.size() > 1) {
+        // find and remove the two heaviest boulders from the heap
+        int y = pq.poll();
+        int x = pq.poll();
+        // add the integer representing difference between the two boulders back into the PriorityQueue
+        if (y != x) {
+            pq.offer(y - x);
+        }
+    }
+
+    // return the final boulder's weight, or return 0 if no boulder is left
+    return pq.isEmpty() ? 0 : pq.peek();
+
   }
 
 
@@ -91,6 +113,10 @@ public class ProblemSolutions {
 
     public static ArrayList<String> showDuplicates(ArrayList<String> input) {
 
+        if (input == null || input.isEmpty()) {
+            return new ArrayList<>();
+        }
+
         // create a HashMap that will contain the number of times a string appears
         HashMap<String, Integer> countMap = new HashMap<>();
 
@@ -99,7 +125,7 @@ public class ProblemSolutions {
 
         // count how many times each string occurs
         for (String s : input) {
-            countMap.put(s, countMap.getOrDefaults(s, 0) + 1);
+            countMap.put(s, countMap.getOrDefault(s, 0) + 1);
         }
 
         // select duplicate strings
@@ -131,7 +157,7 @@ public class ProblemSolutions {
      *         - Ordering between pairs:
      *            The ordering of strings of pairs should be sorted in lowest to
      *            highest pairs. E.g., if the following two string pairs within
-     *            the returned ArraryList, "(3, 6)" and "(2, 7), they should be
+     *            the returned ArrayList, "(3, 6)" and "(2, 7), they should be
      *            ordered in the ArrayList returned as "(2, 7)" and "(3, 6 )".
      *
      *         Example output:
@@ -145,6 +171,10 @@ public class ProblemSolutions {
      */
 
     public static ArrayList<String> pair(int[] input, int k) {
+
+        if (input == null || input.length == 0) {
+            return new ArrayList<>();
+        }
 
         // keep track of the integers that have been visited already
         // you have to visit a number before it can be a complement and join a pair

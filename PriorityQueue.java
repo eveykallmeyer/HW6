@@ -1,7 +1,7 @@
 
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Evey Kallmeyer - COMP 272/400C-002
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -151,8 +151,16 @@ class PriorityQueue<E, P> {
 
     public Node add(E e, P priority) {
 
-        // YOUR CODE GOES HERE
-        return null;
+        Node node = new Node(e, priority, tree.size());
+
+        // add the node to the end of the ArrayList to preserve the complete tree
+        tree.add(node);
+
+        // correct the min-heap ordering by pulling the node up, comparing it to its parents and swapping
+        pullUp(node.idx);
+
+        return node;
+
     }
 
 
@@ -168,7 +176,13 @@ class PriorityQueue<E, P> {
 
     public boolean contains(E e) {
 
-        // ADD YOUR CODE HERE
+        // for every node in the ArrayList, compare elements, and if a matching element is found, return true
+        for (Node n : tree) {
+            if (java.util.Objects.equals(n.value(), e)) {
+                return true;
+            }
+        }
+        
         return false;
     }
 
